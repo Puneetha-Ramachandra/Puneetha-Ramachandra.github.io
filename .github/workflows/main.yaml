@@ -1,24 +1,50 @@
-name: Build and deploy this site to GitHub Pages
+# Build the Jekyll site and deploy it to GitHub Pages.
+#
+# The theme (dev-portfolio-blog) is not one of the themes GitHub's built-in Pages
+# builder supports, so the site is built here and uploaded as a Pages artifact.
+# Repository setting required once: Settings -> Pages -> Source: "GitHub Actions",
+# and the custom domain (puneetha.dev) set on the same page.
+name: Build and deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main 
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; let an in-progress one finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  github-pages:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
         with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-      - uses: jeffreytse/jekyll-deploy-action@v0.4.0
-        with:
-          provider: 'github'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pre_build_commands: pacman -S --noconfirm nodejs npm
-          branch: 'master'
+          ruby-version: "3.3"
+          bundler-cache: true
+      - uses: actions/configure-pages@v5
+        id: pages
+      - name: Build site
+        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        env:
+          JEKYLL_ENV: production
+      - uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
