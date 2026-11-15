@@ -1,0 +1,45 @@
+---
+---
+{%- comment -%}
+Overrides the theme's default layout. Differences from the theme:
+  * one colour palette with light/dark variants (see _sass/custom.scss) instead of the
+    six-theme dropdown; the mode is picked before first paint so pages never flash white;
+  * the Disqus DNS prefetch is only emitted when Disqus is configured.
+{%- endcomment -%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <link rel="shortcut icon" href="{{ "/favicon.ico" | relative_url }}" type="image/x-icon">
+    {%- if site.disqus.shortname %}
+    <link rel="dns-prefetch" href="https://{{ site.disqus.shortname }}.disqus.com">
+    {%- endif %}
+    <meta itemprop="description" name="description" content="{{ page.description | default: site.description | strip_newlines | truncate: 160 }}">
+    <title>{{ page.title | default: site.title }}</title>
+
+    {%- comment -%} Apply a saved light/dark choice before the stylesheet loads. {%- endcomment -%}
+    <script>
+      (function () {
+        try {
+          var m = localStorage.getItem('color-mode');
+          if (m === 'light' || m === 'dark') { document.documentElement.setAttribute('data-theme', m); }
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap">
+    <link rel="stylesheet" href="{{ "/assets/css/styles.css" | relative_url }}">
+    <script defer src="{{ "/assets/js/theme.js" | relative_url }}"></script>
+
+    {% include analytics.html %}
+    {% feed_meta %}
+    {% seo title=false %}
+  </head>
+  <body>
+    {% include themeSelector.html %}
+    {{ content }}
+  </body>
+</html>

@@ -1,0 +1,120 @@
+// Site colours and type, layered over the theme's main.scss.
+//
+// One warm palette (ivory paper / charcoal ink / terracotta accent) with a light and
+// a dark variant. The variant follows the visitor's OS setting unless they press the
+// toggle, which sets data-theme on <html> (see assets/js/theme.js).
+
+@mixin light-palette {
+  color-scheme: light;
+  --primary-background-color: #faf9f5;
+  --primary-text-color: #1f1e1b;
+  --primary-highlight-color: #efede4;
+  --accent-color: #c2572f;
+  --muted-color: #6b6962;
+  --rule-color: #d9d6c9;
+}
+
+@mixin dark-palette {
+  color-scheme: dark;
+  --primary-background-color: #262624;
+  --primary-text-color: #ece9df;
+  --primary-highlight-color: #33322f;
+  --accent-color: #e0855f;
+  --muted-color: #a8a59a;
+  --rule-color: #46443f;
+}
+
+html { @include light-palette; }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) { @include dark-palette; }
+}
+html[data-theme="dark"] { @include dark-palette; }
+
+// Type -----------------------------------------------------------------------
+// Newsreader (Google Fonts, loaded in _layouts/default.html) for headings; local serifs as fallback.
+$serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, "Times New Roman", serif;
+// Inter (Google Fonts) for body text so it renders the same on every system; system sans as fallback.
+$sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+body {
+  font-family: $sans;
+  font-size: 16.5px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .blog-heading {
+  font-family: $serif;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  font-optical-sizing: auto;
+}
+.mid-section-home h1 { font-weight: 500; }
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  &:hover { text-decoration: underline; text-underline-offset: 3px; }
+}
+
+// Navigation links keep the ink colour; the hover rule becomes the accent.
+.nav-link li a,
+.mid-section-cover nav ul li a {
+  color: var(--primary-text-color);
+  &:hover {
+    text-decoration: none;
+    color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+  }
+}
+.nav-link { border-left-color: var(--rule-color); }
+.mid-section-cover nav { border-bottom-color: var(--rule-color); }
+
+hr { border: 0; border-top: 1px solid var(--rule-color); margin: 2rem 0; }
+small, .date, .post-footer, .blogPage-categoryList { color: var(--muted-color); }
+.blog-list li .date { opacity: 1; }
+blockquote {
+  margin: 1.5rem 0;
+  padding: 0 0 0 1rem;
+  border-left: 3px solid var(--accent-color);
+  color: var(--muted-color);
+}
+
+// Code --------------------------------------------------------------------------
+code, pre, kbd { font-family: $mono; font-size: 0.92em; }
+code {
+  background: var(--primary-highlight-color);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+pre code, div.highlight code { background: none; padding: 0; }
+div.highlight, pre.highlight {
+  background: var(--primary-highlight-color);
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  line-height: 1.5;
+}
+
+// Reading width ------------------------------------------------------------------
+.mid-section-cover { max-width: 760px; }
+.sub-mid-section-cover img { border-radius: 6px; }
+
+// Light/dark toggle (replaces the theme's #themeSelector dropdown) -----------------
+#themeToggle {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--rule-color);
+  border-radius: 50%;
+  background: var(--primary-background-color);
+  color: var(--primary-text-color);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  &:hover { border-color: var(--accent-color); color: var(--accent-color); }
+  &:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
+}
