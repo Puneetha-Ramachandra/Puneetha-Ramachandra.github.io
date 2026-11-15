@@ -3,6 +3,6 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: home
-home_text: Notes on software, mostly the kind that runs close to the hardware.
+home_text: Notes on software,<br>mostly the kind<br>that runs close<br>to the hardware.
 title: Puneetha Ramachandra
 ---

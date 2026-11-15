@@ -118,3 +118,55 @@ div.highlight, pre.highlight {
   &:hover { border-color: var(--accent-color); color: var(--accent-color); }
   &:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
 }
+
+// Homepage: a wider stage so the four short lines under the name sit right-aligned
+// against the four nav items, line for line, with the row centred under the name ---
+.mid-section-home {
+  max-width: 680px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  h1 { font-size: 3.75rem; margin: 0 0 1.5rem; }
+}
+.sub-heading {
+  width: auto;
+  align-self: center;
+  align-items: center;
+}
+// Both columns use the same 2rem line box, so tagline line N aligns with nav item N
+// and the rule spans exactly the four lines.
+.summary-about-me {
+  width: auto;
+  flex: 0 1 auto;
+  text-align: right;
+  padding-right: 28px;
+  font-size: 1.125rem;
+  line-height: 2rem;
+  color: var(--muted-color);
+  p { margin: 0; }
+}
+.nav-link {
+  width: auto;
+  flex: 0 0 auto;
+  padding-left: 28px;
+  font-size: 1.25rem;
+  ul { margin: 0; }
+  li { line-height: 2rem; }
+}
+// Stack below 600px: the two-column row needs ~300px of stage plus the "I am " span,
+// and the theme's own 480px phone query hides that span.
+@media (max-width: 600px) {
+  .mid-section-home h1 { font-size: 3rem; margin-bottom: 1rem; }
+  .sub-heading { width: 100%; flex-direction: column; align-items: stretch; }
+  .summary-about-me {
+    text-align: center;
+    padding: 0 0 1.25rem;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+  }
+  .nav-link {
+    border-left: 0;
+    border-top: 1px solid var(--rule-color);
+    padding: 1.25rem 0 0;
+    li { text-align: center; margin-left: 0; line-height: 1.8; }
+  }
+}
