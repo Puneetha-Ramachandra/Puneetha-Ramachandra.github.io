@@ -185,3 +185,11 @@ div.highlight, pre.highlight {
   margin: 1.5rem 0 0.25rem;
   + small { display: block; color: var(--muted-color); margin-bottom: 1.5rem; }
 }
+
+// Headings inside article bodies. Newsreader has a small x-height, so at the browser
+// default sizes a subheading looks smaller than the Inter body text next to it.
+.sub-mid-section-cover {
+  h2:not(:first-child) { font-size: 1.75rem; margin: 2.25rem 0 0.5rem; }
+  h3 { font-size: 1.5rem; margin: 2.25rem 0 0.5rem; }
+  h4 { font-size: 1.25rem; margin: 1.75rem 0 0.5rem; }
+}
