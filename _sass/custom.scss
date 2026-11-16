@@ -170,3 +170,18 @@ div.highlight, pre.highlight {
     li { text-align: center; margin-left: 0; line-height: 1.8; }
   }
 }
+
+// Article pages: the theme paints links inside the page body in the text colour, which
+// hides them. Give them the accent and a quiet underline; the post title gets more room.
+.mid-section-cover .sub-mid-section-cover a {
+  color: var(--accent-color);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-color);
+  text-underline-offset: 3px;
+  &:hover { text-decoration-color: var(--accent-color); }
+}
+.sub-mid-section-cover > h2 {
+  font-size: 2rem;
+  margin: 1.5rem 0 0.25rem;
+  + small { display: block; color: var(--muted-color); margin-bottom: 1.5rem; }
+}
